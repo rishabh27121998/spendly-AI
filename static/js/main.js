@@ -36,4 +36,40 @@ function animateHeroStats() {
     requestAnimationFrame(tick);
 }
 
+function initVideoModal() {
+    const openBtn = document.getElementById("how-it-works-btn");
+    const modal = document.getElementById("video-modal");
+    const closeBtn = document.getElementById("video-modal-close");
+    const iframe = document.getElementById("video-modal-iframe");
+
+    if (!openBtn || !modal || !closeBtn || !iframe) return;
+
+    const videoSrc = modal.dataset.videoSrc;
+
+    function openModal(event) {
+        event.preventDefault();
+        iframe.src = videoSrc + "?autoplay=1";
+        modal.hidden = false;
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+        modal.hidden = true;
+        iframe.src = "";
+        document.body.style.overflow = "";
+    }
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !modal.hidden) closeModal();
+    });
+}
+
 document.addEventListener("DOMContentLoaded", animateHeroStats);
+document.addEventListener("DOMContentLoaded", initVideoModal);
